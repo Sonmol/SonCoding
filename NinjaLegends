@@ -1,0 +1,989 @@
+
+-- BL∆CK_TRAP_V1.2 />
+if game:GetService("CoreGui"):FindFirstChild("BlackTrap") then
+    game:GetService("CoreGui")["BlackTrap"]:Destroy()
+end
+
+-- Service />
+local VirtualUser = game:GetService('VirtualUser')
+local RunService = game:GetService("RunService")
+local TweenService = game:GetService("TweenService")
+local UserInputService = game:GetService("UserInputService")
+local HttpService = game:GetService("HttpService")
+
+local placeId = game.PlaceId
+local GetPlace = ""
+if placeId == 3956818381 then
+	GetPlace = "1"
+end
+
+-- Lib/>
+local Blacklib = loadstring(game:HttpGet("https://raw.githubusercontent.com/Sky2836/Sanz/main/BlackTrap%20V.1.2.lua"))()
+
+-- Windows />
+local Win = Blacklib:Window("Ninja Legends [" .. GetPlace .."]")
+
+-- Tabs />
+local Main = Win:Tab("• Main", "rbxassetid://8825667942")
+local Pets = Win:Tab("• Crystal Pets", "rbxassetid://8879573067")
+local Areas = Win:Tab("• Area", "rbxassetid://8825658898")
+local Misc = Win:Tab("• Misc", "rbxassetid://8825656075")
+local Settings = Win:Tab("• Settings", "rbxassetid://8825671038")
+local Credits = Win:Tab("• Credits", "rbxassetid://8825672676")
+
+-----------------------------------------------------------------------------------
+-- Main />
+local Main_1 = Main:NewSection("Auto Farm")
+local Main_1_2 = Main:NewSection("Auto Buy")
+local Main_2 = Main:NewSection("Auto Karma")
+local Main_3 = Main:NewSection("Auto Boss")
+
+-- Pets />
+local Pets_1 = Pets:NewSection("Auto Open Crystals Pets")
+local Pets_2 = Pets:NewSection("Auto Selling Pets")
+
+-- Areas />
+local Areas_1 = Areas:NewSection("Island")
+local Areas_2 = Areas:NewSection("Area")
+
+-- Misc />
+local Misc_1 = Misc:NewSection("Miscellaneous")
+local Misc_2 = Misc:NewSection("Visual")
+
+-- Settings />
+local Settings_1 = Settings:NewSection("Config")
+local Settings_2 = Settings:NewSection("Players")
+
+-- Changelog />
+local Credits_1 = Credits:NewSection("Changelog")
+local Credits_2 = Credits:NewSection("Credits")
+local Credits_3 = Credits:NewSection("Game Supported")
+-----------------------------------------------------------------------------------
+
+-- Script Function />
+spawn(function()
+    local players = game.Players:GetPlayers()
+    local player = game.Players.LocalPlayer
+    local lplr = ""
+    local jplr = ""  
+    local function check()
+	    for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do 
+	        if v.ClassName == "Tool" and v:FindFirstChild("attackKatanaScript") then 
+	            v.attackTime.Value = 0.001
+	            game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
+	        end
+	    end
+    end
+    while wait() do
+        if _G.AutoKarma then
+	        if workspace[player.Name]:FindFirstChild("Head") then
+	            if workspace[player.Name].Head:FindFirstChild("nameGui") then
+	                workspace[player.Name].Head.nameGui:Destroy()
+	            end
+	        end
+            player.ninjaEvent:FireServer("goInvisible")
+            if player.Character:FindFirstChild("inSafezone")then
+                player.Character.HumanoidRootPart.CFrame =
+                player.Character.HumanoidRootPart.CFrame + Vector3.new(0,200,0)
+            end
+	        game.Players.PlayerRemoving:Connect(function(player)
+	            lplr = (player.Name)
+	            players = game.Players:GetPlayers()
+	        end)
+	
+	        game.Players.PlayerAdded:Connect(function(player)
+	            jplr = (player.Name)
+	            players = game.Players:GetPlayers()
+	        end)
+	
+	        players = game.Players:GetPlayers()
+	        game:GetService("RunService").Heartbeat:Connect(function()
+	            if player.Character and player.Character:FindFirstChildOfClass("Humanoid") then
+	                player.Character.Humanoid:ChangeState(11)
+	            end
+	        end)
+	        for _, v in pairs(players) do
+	            if v.Name ~= player.Name and v.Name ~= lplr and v.Name ~= jplr and workspace[v.Name]:FindFirstChild("Head") then
+	                if v.Name ~= game.Players.LocalPlayer.Name and not v.Character:FindFirstChild("inSafezone") then
+	                    v.Character.Head.CanCollide = false
+	                    v.Character.Head.Anchored = true
+	                    v.Character.Head.Position =
+	                    v.Character.HumanoidRootPart.Position+Vector3.new(4.5,0,0)
+	                    v.Character.Head.CFrame = player.Character.HumanoidRootPart.CFrame + Vector3.new(3,0,0)
+	                    VirtualUser:CaptureController()
+	                    VirtualUser:ClickButton1(Vector2.new(1280, 672), game:GetService("Workspace").Camera.CFrame)
+	                end
+	            end
+            end
+	
+	        for _,v in pairs(game.Workspace.soulPartsFolder:GetChildren()) do
+	            if v.Name == "soulPart" and v.collectPlayers:FindFirstChild(player.Name) then
+	                if soulType == "Bad" then
+	                    if not v:FindFirstChild("isGoodKarma") then
+	                        player.Character.HumanoidRootPart.CFrame = v.CFrame + Vector3.new(0,5,0)
+	                        game.Players.LocalPlayer.ninjaEvent:FireServer("collectSoul", v)
+	                    end
+	                end
+            
+                    if soulType == "Good" then
+	                    if v:FindFirstChild("isGoodKarma") then
+	                        player.Character.HumanoidRootPart.CFrame = v.CFrame + Vector3.new(0,5,0)
+	                        game.Players.LocalPlayer.ninjaEvent:FireServer("collectSoul", v)
+	                    end
+	                end
+	            end
+	        end
+	        check()
+	    end
+    end
+end)
+
+spawn(function()
+	game:GetService("RunService").Heartbeat:connect(function()
+		pcall(function()
+			if _G.Swing then
+					VirtualUser:CaptureController()
+					VirtualUser:ClickButton1(Vector2.new(1280, 672), game:GetService("Workspace").Camera.CFrame)
+			end
+		end)
+	end)
+	game:GetService("RunService").Heartbeat:connect(function()
+		pcall(function()
+			if _G.Swing then
+					VirtualUser:CaptureController()
+					VirtualUser:ClickButton1(Vector2.new(1280, 672), game:GetService("Workspace").Camera.CFrame)
+			end
+		end)
+	end)
+end)
+
+spawn(function()
+    while wait() do
+        if _G.Swing then
+            if game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart") then
+                if game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool") then
+                    game.Players.LocalPlayer.ninjaEvent:FireServer("swingKatana")
+                else
+                    for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+                        if v.ClassName == "Tool" and v:FindFirstChild("attackKatanaScript") then
+                            v.attackTime.Value = 0
+                            game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
+                            if attackfar then
+                                for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+                                    if v.ClassName == "Tool" and v:FindFirstChild("attackShurikenScript") then
+                                    game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
+                                    wait()
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
+end)
+
+
+spawn(function()
+    while wait() do
+        if _G.Hoops then
+	        local stuff = workspace.Hoops:getChildren()
+	        for i = 1, #stuff do
+	            stuff[i].touchPart.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+	            wait()
+	        end
+            wait()
+	    end
+    end
+end)
+
+spawn(function()
+    while wait() do
+        if game:GetService("Players").LocalPlayer.Character:WaitForChild("HumanoidRootPart") then
+            if _G.Chi then
+                for i,v in pairs(game.Workspace.spawnedCoins.Valley:GetChildren()) do
+                    if v.Name == "Blue Chi Crate" then 
+                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(v.Position)
+                    end
+                end
+            end
+        end
+    end
+end)
+
+spawn(function()
+    while wait() do
+        if game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart") then
+            if _G.Coins then
+                for i,v in pairs(game.Workspace.spawnedCoins.Valley:GetChildren()) do
+                    if v.Name == "Coin" then 
+                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(v.Position)
+                    end
+                end
+            end
+        end
+    end
+end)
+
+spawn(function()
+    while wait() do
+        if _G.AutoSell then
+            if game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart") then
+                game.workspace.sellAreaCircles["sellAreaCircle7"].circleInner.CFrame = game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame
+                wait()
+                game.workspace.sellAreaCircles["sellAreaCircle7"].circleInner.CFrame = game.Workspace.Part.CFrame
+            end
+        end
+    end
+end)
+
+spawn(function()
+    while wait() do
+        if _G.LevelPet then
+            for _,v in pairs(workspace.Hoops:GetDescendants()) do
+                if v.ClassName == "MeshPart" then
+                    v.touchPart.CFrame = LocalPlayer.Character.HumanoidRootPart.CFrame
+                end
+            end
+        end
+    end
+end)
+
+spawn(function()
+    while wait() do
+        if _G.AutoBoss then
+            if game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart") then
+                if _G.TypeBoss == 'RobotBoss' then
+                    if game.Workspace.bossFolder:FindFirstChild("RobotBoss") then
+                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Workspace.bossFolder.RobotBoss.HumanoidRootPart.CFrame
+                    end
+                elseif _G.TypeBoss == 'EternalBoss' then
+                    if game.Workspace.bossFolder:FindFirstChild("EternalBoss") then
+                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Workspace.bossFolder.EternalBoss.HumanoidRootPart.CFrame
+                    end
+                elseif _G.TypeBoss == 'AncientMagmaBoss' then
+                    if game.Workspace.bossFolder:FindFirstChild("AncientMagmaBoss") then
+                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Workspace.bossFolder.AncientMagmaBoss.HumanoidRootPart.CFrame
+                    end
+                elseif _G.TypeBoss == 'Samurai Santa' then
+                    if game.Workspace.bossFolder:FindFirstChild("Samurai Santa") then
+                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Workspace.bossFolder["Samurai Santa"].HumanoidRootPart.CFrame
+                    end
+                elseif _G.TypeBoss == 'All' then
+                    if game.Workspace.bossFolder:FindFirstChild("Samurai Santa") then
+                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Workspace.bossFolder["Samurai Santa"].HumanoidRootPart.CFrame
+                    else
+                        if not game.Workspace.bossFolder:FindFirstChild("Samurai Santa") then
+                            if game.Workspace.bossFolder:FindFirstChild("AncientMagmaBoss") then
+                                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Workspace.bossFolder.AncientMagmaBoss.HumanoidRootPart.CFrame
+                            else
+                                if not game.Workspace.bossFolder:FindFirstChild("AncientMagmaBoss") then
+                                    if game.Workspace.bossFolder:FindFirstChild("EternalBoss") then
+                                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Workspace.bossFolder.EternalBoss.HumanoidRootPart.CFrame
+                                    else
+                                        if not game.Workspace.bossFolder:FindFirstChild("EternalBoss") then
+                                            if game.Workspace.bossFolder:FindFirstChild("RobotBoss") then
+                                                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Workspace.bossFolder.RobotBoss.HumanoidRootPart.CFrame
+                                            end
+                                        end
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end
+                if game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool") then
+                    game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool"):Activate()
+                else
+                    for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+                        if v.ClassName == "Tool" and v:FindFirstChild("attackKatanaScript") then
+                            v.attackTime.Value = 0
+                            game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
+                            if attackfar then
+                                for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+                                    if v.ClassName == "Tool" and v:FindFirstChild("attackShurikenScript") then
+                                        game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
+end)
+
+spawn(function()
+    while wait() do
+        if _G.EnableSellPet then
+            if game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart") then
+                if _G.SellPet == 'All-Basic' then
+                    for i,v in pairs(game.Players.LocalPlayer.petsFolder.Basic:GetChildren()) do
+                        game.ReplicatedStorage.rEvents.sellPetEvent:FireServer("sellPet", v)
+                    end
+                elseif _G.SellPet == 'All-Advanced' then
+                    for i,v in pairs(game.Players.LocalPlayer.petsFolder.Advanced:GetChildren()) do
+                        game.ReplicatedStorage.rEvents.sellPetEvent:FireServer("sellPet", v)
+                    end
+                elseif _G.SellPet == 'All-Rare' then
+                    for i,v in pairs(game.Players.LocalPlayer.petsFolder.Rare:GetChildren()) do
+                        game.ReplicatedStorage.rEvents.sellPetEvent:FireServer("sellPet", v)
+                    end
+                elseif _G.SellPet == 'All-Epic' then
+                    for i,v in pairs(game.Players.LocalPlayer.petsFolder.Epic:GetChildren()) do
+                        game.ReplicatedStorage.rEvents.sellPetEvent:FireServer("sellPet", v)
+                    end
+                elseif _G.SellPet == 'All-Unique' then
+                    for i,v in pairs(game.Players.LocalPlayer.petsFolder.Unique:GetChildren()) do
+                        game.ReplicatedStorage.rEvents.sellPetEvent:FireServer("sellPet", v)
+                    end
+                elseif _G.SellPet == 'All-Omega' then
+                    for i,v in pairs(game.Players.LocalPlayer.petsFolder.Omega:GetChildren()) do
+                        game.ReplicatedStorage.rEvents.sellPetEvent:FireServer("sellPet", v)
+                    end
+                elseif _G.SellPet == 'All-Elite' then
+                    for i,v in pairs(game.Players.LocalPlayer.petsFolder.Elite:GetChildren()) do
+                        game.ReplicatedStorage.rEvents.sellPetEvent:FireServer("sellPet", v)
+                    end
+                elseif _G.SellPet == 'All-Infinity' then
+                    for i,v in pairs(game.Players.LocalPlayer.petsFolder.Infinity:GetChildren()) do
+                        game.ReplicatedStorage.rEvents.sellPetEvent:FireServer("sellPet", v)
+                    end
+                elseif _G.SellPet == 'All-Awakened' then
+                    for i,v in pairs(game.Players.LocalPlayer.petsFolder.Awakened:GetChildren()) do
+                        game.ReplicatedStorage.rEvents.sellPetEvent:FireServer("sellPet", v)
+                    end
+                elseif _G.SellPet == 'All-Master Legend' then
+                    for i,v in pairs(game.Players.LocalPlayer.petsFolder("Master Legend"):GetChildren()) do
+                        game.ReplicatedStorage.rEvents.sellPetEvent:FireServer("sellPet", v)
+                    end
+                elseif _G.SellPet == 'All-BEAST' then
+                    for i,v in pairs(game.Players.LocalPlayer.petsFolder.BEAST:GetChildren()) do
+                        game.ReplicatedStorage.rEvents.sellPetEvent:FireServer("sellPet", v)
+                    end
+                elseif _G.SellPet == 'All-Skystorm' then
+                    for i,v in pairs(game.Players.LocalPlayer.petsFolder.Skystorm:GetChildren()) do
+                        game.ReplicatedStorage.rEvents.sellPetEvent:FireServer("sellPet", v)
+                    end
+                elseif _G.SellPet == 'All-Soul Master' then
+                    for i,v in pairs(game.Players.LocalPlayer.petsFolder("Soul Master"):GetChildren()) do
+                        game.ReplicatedStorage.rEvents.sellPetEvent:FireServer("sellPet", v)
+                    end
+                elseif _G.SellPet == 'All-Rising Hero' then
+                    for i,v in pairs(game.Players.LocalPlayer.petsFolder("Rising Hero"):GetChildren()) do
+                        game.ReplicatedStorage.rEvents.sellPetEvent:FireServer("sellPet", v)
+                    end
+                elseif _G.SellPet == 'All-Q-STRIKE' then
+                    for i,v in pairs(game.Players.LocalPlayer.petsFolder("Q-STRIKE"):GetChildren()) do
+                        game.ReplicatedStorage.rEvents.sellPetEvent:FireServer("sellPet", v)
+                    end
+                elseif _G.SellPet == 'All-Skyblade' then
+                    for i,v in pairs(game.Players.LocalPlayer.petsFolder.Skyblade:GetChildren()) do
+                        game.ReplicatedStorage.rEvents.sellPetEvent:FireServer("sellPet", v)
+                    end
+                end
+            end
+        end
+    end
+end)
+
+
+
+-----------------------------------------------------------------------------------
+
+-- Main_1 (Auto Farm)
+Main_1:Toggle("Auto Swing", function(vu)
+    _G.Swing = vu
+end)
+
+Main_1:Toggle("Auto Hoops", function(vu)
+    _G.Hoops = vu
+end)
+
+Main_1:Toggle("Auto Collect Chi", function(vu)
+    _G.Chi = vu
+end)
+
+Main_1:Toggle("Auto Collect Coins", function(vu)
+    _G.Coins = vu
+end)
+
+Main_1:Toggle("Auto Sell", function(vu)
+    _G.AutoSell = vu
+end)
+
+Main_1:Toggle("Auto Level Pet", function(vu)
+    _G.LevelPet = vu
+end)
+
+Main_1:Button("Delete PopUp Coins and Chi", function()
+    game:GetService("Players").LocalPlayer.PlayerGui.statEffectsGui.Enabled = not game:GetService("Players").LocalPlayer.PlayerGui.statEffectsGui.Enabled
+    game:GetService("Players").LocalPlayer.PlayerGui.hoopGui.Enabled = not game:GetService("Players").LocalPlayer.PlayerGui.hoopGui.Enabled
+end)
+
+-----------------------------------------------------------------------------------
+
+-- Main_1_2 (Auto Buy)
+Main_1_2:Toggle("Auto Buy Rank", function(vu)
+    _G.BuyRank = vu
+    while task.wait(1) and _G.BuyRank do
+       if game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart") then
+            local oh1 = "buyRank"
+            local oh2 = game:GetService("ReplicatedStorage").Ranks.Ground:GetChildren()
+            for i = 1, #oh2 do
+                game:GetService("Players").LocalPlayer.ninjaEvent:FireServer(oh1, oh2[i].Name)
+            end
+        end
+    end
+end)
+
+Main_1_2:Toggle("Auto Buy Belt", function(vu)
+    _G.BuyBelt = vu
+    while task.wait(1) and _G.BuyBelt do
+        if game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart") then
+            local oh1 = "buyAllBelts"
+            local oh2 = {"Ground", "Astral Island", "Space Island","Tundra Island", "Eternal Island", "Sandstorm", "Thunderstorm", "Ancient Inferno Island", "Midnight Shadow Island", "Mythical Souls Island", "Winter Wonder Island", "Golden Master Island", "Dragon Legend Island", "Cybernetic Legends Island", "Skystorm Ultraus Island", "Chaos Legends Island", "Soul Fusion Island", "Dark Elements Island", "Inner Peace Island", "Blazing Vortex Island"}
+            for i = 1, #oh2 do
+                game:GetService("Players").LocalPlayer.ninjaEvent:FireServer(oh1, oh2[i])
+            end
+        end
+    end
+end)
+
+Main_1_2:Toggle("Auto Buy Sword", function(vu)
+    _G.BuySword = vu
+    while task.wait(1) and _G.BuySword do
+       if game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart") then
+            local oh1 = "buyAllSwords"
+            local oh2 = {"Ground", "Astral Island", "Space Island","Tundra Island", "Eternal Island", "Sandstorm", "Thunderstorm", "Ancient Inferno Island", "Midnight Shadow Island", "Mythical Souls Island", "Winter Wonder Island", "Golden Master Island", "Dragon Legend Island", "Cybernetic Legends Island", "Skystorm Ultraus Island", "Chaos Legends Island", "Soul Fusion Island", "Dark Elements Island", "Inner Peace Island", "Blazing Vortex Island"}
+            for i = 1, #oh2 do
+                game:GetService("Players").LocalPlayer.ninjaEvent:FireServer(oh1, oh2[i])
+            end
+        end
+    end
+end)
+
+Main_1_2:Toggle("Auto Buy Skill", function(vu)
+    _G.BuySkill = vu
+    while task.wait(1) and _G.BuySkill do
+        if game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart") then
+            local oh1 = "buyAllSkills"
+            local oh2 = {"Ground", "Astral Island", "Space Island","Tundra Island", "Eternal Island", "Sandstorm", "Thunderstorm", "Ancient Inferno Island", "Midnight Shadow Island", "Mythical Souls Island", "Winter Wonder Island", "Golden Master Island", "Dragon Legend Island", "Cybernetic Legends Island", "Skystorm Ultraus Island", "Chaos Legends Island", "Soul Fusion Island", "Dark Elements Island", "Inner Peace Island", "Blazing Vortex Island"}
+            for i = 1, #oh2 do
+                game:GetService("Players").LocalPlayer.ninjaEvent:FireServer(oh1, oh2[i])
+            end
+        end
+    end
+end)
+
+Main_1_2:Toggle("Auto Buy Shuriken", function(vu)
+    _G.BuyShuriken = vu
+    while task.wait(1) and _G.BuyShuriken do
+        if game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart") then
+            local oh1 = "buyAllShurikens"
+            local oh2 = {"Ground", "Astral Island", "Space Island","Tundra Island", "Eternal Island", "Sandstorm", "Thunderstorm", "Ancient Inferno Island", "Midnight Shadow Island", "Mythical Souls Island", "Winter Wonder Island", "Golden Master Island", "Dragon Legend Island", "Cybernetic Legends Island", "Skystorm Ultraus Island", "Chaos Legends Island", "Soul Fusion Island", "Dark Elements Island", "Inner Peace Island", "Blazing Vortex Island"}
+            for i = 1, #oh2 do
+                game:GetService("Players").LocalPlayer.ninjaEvent:FireServer(oh1, oh2[i])
+            end
+        end
+    end
+end)
+
+-----------------------------------------------------------------------------------
+                    
+-- Main_2 (Auto Karma)
+local checkKill = Main_2:Label("")
+local checkStreak = Main_2:Label("")
+
+spawn(function()
+    while game:GetService("RunService").Heartbeat:wait() do
+        checkKill:Refresh("Killed : "..tostring(game.Players.LocalPlayer.leaderstats.Kills.Value))
+        checkStreak:Refresh("Killed Streak : "..tostring(game.Players.LocalPlayer.leaderstats.Streak.Value))
+    end
+end)
+
+local soulList = {
+    "Bad";
+    "Good";
+}
+    
+Main_2:Dropdown("Select Karma", soulList, function(val)
+    soulType = val
+end)
+
+Main_2:Toggle("Start Farm Karma", function(vu)
+    checkKarma = vu
+    if checkKarma == true and soulType == nil then
+        Blacklib:Notification("Karma Notice.", "Please Select Karma Type First.")
+    else
+        _G.AutoKarma = vu
+    end
+end)
+
+
+-----------------------------------------------------------------------------------
+
+-- Main_3 />
+local BossList = {'All'}
+for i,v in pairs(game:GetService("Workspace").bossFolder:GetChildren()) do
+    table.insert(BossList, v.Name)
+end
+
+local CheckBoss = Main_3:Dropdown("Select Boss", BossList, function(vu)
+    _G.TypeBoss = vu
+end)
+
+Main_3:Button("Refresh Boss", function()
+    CheckBoss:Clear()
+    CheckBoss:Add('All')
+    for i,v in pairs(game:GetService("Workspace").bossFolder:GetChildren()) do
+        CheckBoss:Add(v.Name)
+    end
+end)
+
+Main_3:Toggle("Start Auto Boss", function(vu)
+    cb = vu
+    if cb == true and _G.TypeBoss == "" then
+        Blacklib:Notification("Auto Boss Notics..", "Please Select the Boss First.")
+    else
+        _G.AutoBoss = vu
+    end
+end)
+
+-----------------------------------------------------------------------------------
+
+-- Pets_1 (Auto Open Crystals)
+local set = {}
+local Crystals = {}
+for i,v in next, game.workspace.mapCrystalsFolder:GetChildren() do 
+    table.insert(Crystals, v.Name)
+end
+
+Pets_1:Dropdown("Select Crystals", Crystals, function(val)
+    if val then
+        set.SelectCrystal = val
+    end
+end)
+
+Pets_1:Toggle("Start Open Crystals", function(op)
+    if op == true then
+        _G.OpenCrystales = true
+    elseif op == false then
+        _G.OpenCrystales = false
+    end
+    while _G.OpenCrystales do
+        local oh1 = "openCrystal"
+        local oh2 = set.SelectCrystal
+        game:GetService("ReplicatedStorage").rEvents.openCrystalRemote:InvokeServer(oh1, oh2)
+        
+    end
+end)
+
+-----------------------------------------------------------------------------------
+
+-- Pets_2 (Sell Pets)
+local PetList = {}
+for i,v in pairs(game:GetService("Players").LocalPlayer.petsFolder:GetChildren()) do
+    table.insert(PetList, "All-"..v.Name)
+end
+
+Pets_2:Dropdown("Select Pets", PetList, function(val)
+    _G.SellPet = val
+end)
+
+Pets_2:Toggle("Enable Sell Pets", function(val)
+    _G.EnableSellPet = val
+end)
+
+-----------------------------------------------------------------------------------
+
+-- Areas_1 (Island)
+Areas_1:Button("Unlock All Area", function()
+    for i,v in next, game.workspace.islandUnlockParts:GetChildren() do
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.islandSignPart.CFrame;
+        wait(1)
+    end
+end)
+
+Areas_1:Button("Enchanted Island", function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Workspace.islandUnlockParts["Enchanted Island"].islandSignPart.CFrame
+end)
+
+Areas_1:Button("Astral Island", function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Workspace.islandUnlockParts["Astral Island"].islandSignPart.CFrame
+end)
+
+Areas_1:Button("Mystical Island", function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Workspace.islandUnlockParts["Mystical Island"].islandSignPart.CFrame
+end)
+
+Areas_1:Button("Space Island", function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Workspace.islandUnlockParts["Space Island"].islandSignPart.CFrame
+end)
+
+Areas_1:Button("Tundra Island", function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Workspace.islandUnlockParts["Tundra Island"].islandSignPart.CFrame
+end)
+
+Areas_1:Button("Eternal Island", function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Workspace.islandUnlockParts["Eternal Island"].islandSignPart.CFrame
+end)
+
+Areas_1:Button("Sandstorm Island", function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Workspace.islandUnlockParts["Sandstorm"].islandSignPart.CFrame
+end)
+
+Areas_1:Button("Thunderstorm Island", function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Workspace.islandUnlockParts["Thunderstorm"].islandSignPart.CFrame
+end)
+
+Areas_1:Button("Ancient Inferno Island", function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Workspace.islandUnlockParts["Ancient Inferno Island"].islandSignPart.CFrame
+end)
+
+Areas_1:Button("Midnight Shadow Island", function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Workspace.islandUnlockParts["Midnight Shadow Island"].islandSignPart.CFrame
+end)
+
+Areas_1:Button("Mythical Souls Island", function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Workspace.islandUnlockParts["Mythical Souls Island"].islandSignPart.CFrame
+end)
+
+Areas_1:Button("Winter Wonder Island", function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Workspace.islandUnlockParts["Winter Wonder Island"].islandSignPart.CFrame
+end)
+
+Areas_1:Button("Golden Master Island", function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Workspace.islandUnlockParts["Golden Master Island"].islandSignPart.CFrame
+end)
+
+Areas_1:Button("Dragon Legend Island", function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Workspace.islandUnlockParts["Dragon Legend Island"].islandSignPart.CFrame
+end)
+
+Areas_1:Button("Cybernetic Legends Island", function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Workspace.islandUnlockParts["Cybernetic Legends Island"].islandSignPart.CFrame
+end)
+
+Areas_1:Button("Skystorm Ultraus Island", function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Workspace.islandUnlockParts["Skystorm Ultraus Island"].islandSignPart.CFrame
+end)
+
+Areas_1:Button("Chaos Legends Island", function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Workspace.islandUnlockParts["Chaos Legends Island"].islandSignPart.CFrame
+end)
+
+Areas_1:Button("Soul Fusion Island", function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Workspace.islandUnlockParts["Soul Fusion Island"].islandSignPart.CFrame
+end)
+
+Areas_1:Button("Dark Elements Island", function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Workspace.islandUnlockParts["Dark Elements Island"].islandSignPart.CFrame
+end)
+
+Areas_1:Button("Inner Peace Island", function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Workspace.islandUnlockParts["Inner Peace Island"].islandSignPart.CFrame
+end)
+
+Areas_1:Button("Blazing Vortex Island", function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Workspace.islandUnlockParts["Blazing Vortex Island"].islandSignPart.CFrame
+end)
+
+-----------------------------------------------------------------------------------
+
+-- Areas_2 (Area)
+Areas_2:Button("Shop Area", function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").shopAreaCircles["shopAreaCircle11"].circleInner.CFrame
+end)
+
+Areas_2:Button("Skill Area", function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").skillAreaCircles["skillsAreaCircle11"].circleInner.CFrame
+end)
+
+Areas_2:Button("Light Skill Area", function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-116.49514, 3.24800324, 0.0838552266)
+end)
+
+Areas_2:Button("Dark Skill Area", function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-116.549767, 3.24800324, 58.087841)
+end)
+
+Areas_2:Button("King of The Hill Area", function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").kingOfTheHillPart.CFrame
+end)
+
+Areas_2:Button("Mystical Water Area", function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(347.74881, 8824.53809, 114.271019)
+end)
+
+Areas_2:Button("Sword of Legends Area", function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(1834.15967, 38.704483, -141.375641)
+end)
+
+Areas_2:Button("Elemental Tornado Area", function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(299.758484, 30383.0957, -90.1542206)
+end)
+
+Areas_2:Button("Lava Pit Area", function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-116.631485, 12952.5381, 271.14624)
+end)
+
+Areas_2:Button("Tornado Area", function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(325.641174, 16872.0938, -9.9906435)
+end)
+
+Areas_2:Button("Sword of Ancient Area", function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(648.365662, 38.704483, 2409.72266)
+end)
+
+-----------------------------------------------------------------------------------
+
+-- Misc_1
+Misc_1:Button("Auto Collect All Chest", function()
+game:GetService("Workspace").mythicalChest["circleInner"].CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+wait(3.5)
+game:GetService("Workspace").goldenChest["circleInner"].CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+wait(3.5)
+game:GetService("Workspace").enchantedChest["circleInner"].CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+wait(3.5)
+game:GetService("Workspace").magmaChest["circleInner"].CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+wait(3.5)
+game:GetService("Workspace").legendsChest["circleInner"].CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+wait(3.5)
+game:GetService("Workspace").eternalChest["circleInner"].CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+wait(3.5)
+game:GetService("Workspace").saharaChest["circleInner"].CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+wait(3.5)
+game:GetService("Workspace").thunderChest["circleInner"].CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+wait(3.5)
+game:GetService("Workspace").ancientChest["circleInner"].CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+wait(3.5)
+game:GetService("Workspace").midnightShadowChest["circleInner"].CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+wait(3.5)
+game:GetService("Workspace").groupRewardsCircle["circleInner"].CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+wait(3.5)
+game:GetService("Workspace")["Daily Chest"].circleInner.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+wait(3.5)
+game:GetService("Workspace")["wonderChest"].circleInner.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+wait(3.5)
+game:GetService("Workspace").wonderChest["circleInner"].CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+game:GetService("Workspace").midnightShadowChest["circleInner"].CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+game:GetService("Workspace").ancientChest["circleInner"].CFrame = game.Workspace.Part.CFrame
+game:GetService("Workspace").midnightShadowChest["circleInner"].CFrame = game.Workspace.Part.CFrame
+game:GetService("Workspace").thunderChest["circleInner"].CFrame = game.Workspace.Part.CFrame
+game:GetService("Workspace").saharaChest["circleInner"].CFrame = game.Workspace.Part.CFrame
+game:GetService("Workspace").eternalChest["circleInner"].CFrame = game.Workspace.Part.CFrame
+game:GetService("Workspace").legendsChest["circleInner"].CFrame = game.Workspace.Part.CFrame
+game:GetService("Workspace").magmaChest["circleInner"].CFrame = game.Workspace.Part.CFrame
+game:GetService("Workspace").enchantedChest["circleInner"].CFrame = game.Workspace.Part.CFrame
+game:GetService("Workspace").goldenChest["circleInner"].CFrame = game.Workspace.Part.CFrame
+game:GetService("Workspace").mythicalChest["circleInner"].CFrame = game.Workspace.Part.CFrame
+game:GetService("Workspace").groupRewardsCircle["circleInner"].CFrame = game.Workspace.Part.CFrame
+game:GetService("Workspace")["Daily Chest"].circleInner.CFrame = game.Workspace.Part.CFrame
+end)
+
+Misc_1:Button("Collect Light Chest", function()
+game:GetService("Workspace").lightKarmaChest["circleInner"].CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+wait(5)
+game:GetService("Workspace").lightKarmaChest["circleInner"].CFrame = game.Workspace.Part.CFrame
+end)
+
+Misc_1:Button("Collect Evil Chest", function()
+game:GetService("Workspace").evilKarmaChest["circleInner"].CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+wait(5)
+game:GetService("Workspace").evilKarmaChest["circleInner"].CFrame = game.Workspace.Part.CFrame
+end)
+
+Misc_1:Button("Get All Elements", function()
+game:GetService("ReplicatedStorage").rEvents.elementMasteryEvent:FireServer("Eternity Storm")
+wait(3)
+game:GetService("ReplicatedStorage").rEvents.elementMasteryEvent:FireServer("Shadowfire")
+wait(3)
+game:GetService("ReplicatedStorage").rEvents.elementMasteryEvent:FireServer("Electral Chaos")
+wait(3)
+game:GetService("ReplicatedStorage").rEvents.elementMasteryEvent:FireServer("Masterful Wrath")
+wait(3)
+game:GetService("ReplicatedStorage").rEvents.elementMasteryEvent:FireServer("Shadow Charge")
+wait(3)
+game:GetService("ReplicatedStorage").rEvents.elementMasteryEvent:FireServer("Frost")
+wait(3)
+game:GetService("ReplicatedStorage").rEvents.elementMasteryEvent:FireServer("Lightning")
+wait(3)
+game:GetService("ReplicatedStorage").rEvents.elementMasteryEvent:FireServer("Inferno")
+end)
+
+-----------------------------------------------------------------------------------
+
+-- Misc_2 (Visual)
+Misc_2:Button("Invisible", function()
+    while wait(.0001) do
+        local A_1 = "goInvisible"
+        local Event = game.Players.LocalPlayer.ninjaEvent
+        Event:FireServer(A_1)
+    end
+end)
+
+Misc_2:Button("Big Head", function()
+	while wait(1) do
+	    for _, v in pairs(game:GetService("Players"):GetPlayers()) do
+	        if v.Name ~= game:GetService("Players").LocalPlayer.Name then
+	            v.Character.Head.CanCollide = false
+	            v.Character.Head.Size = Vector3.new(5, 5, 5)
+	            v.Character.Head.Transparency = 0
+	        end
+	    end
+	end
+end)
+
+Misc_2:Button("Hidden Name", function()
+    while wait(0.3) do
+        local plrname = game.Players.LocalPlayer.Name
+        workspace[plrname].Head.nameGui:Destroy()
+    end
+end)
+
+Misc_2:Button("Unlimited Backpack [Visual]", function()
+    game.Players.LocalPlayer.maxPetCapacity.Value = 9999
+end)
+    
+Misc_2:Button("Unlimited Shuriken [Visual]", function()
+    wait(.001)
+	game.Players.LocalPlayer.shurikenAmmoCount.Value = "9999"
+	game.Players.LocalPlayer.maxShurikenAmmo.Value = "9999"
+end)
+
+Misc_2:Button("Unlimited Jump [Visual]", function()
+    while wait(.0001) do
+        game.Players.LocalPlayer.multiJumpCount.Value = "9999"
+    end
+end)
+
+-----------------------------------------------------------------------------------
+
+-- Settings_1 (Config)
+Settings_1:Button("Server Hop", function()
+	Teleport()
+end)
+
+Settings_1:Button("Rejoin Server", function()
+	game:GetService("TeleportService"):Teleport(game.PlaceId, game:GetService("Players").localPlayer)
+end)
+
+Settings_1:Button("RTX MODE", function()
+	BeautifulMode()
+end)
+
+Settings_1:Button("Boost Fps", function()
+    local decalsyeeted = true
+    local g = game
+    local w = g.Workspace
+    local l = g.Lighting
+    local t = w.Terrain
+    t.WaterWaveSize = 0
+    t.WaterWaveSpeed = 0
+    t.WaterReflectance = 0
+    t.WaterTransparency = 0
+    l.GlobalShadows = false
+    l.FogEnd = 9e9
+    l.Brightness = 0
+    settings().Rendering.QualityLevel = "Level01"
+    for i, v in pairs(g:GetDescendants()) do
+        if v:IsA("Part") or v:IsA("Union") or v:IsA("CornerWedgePart") or v:IsA("TrussPart") then 
+            v.Material = "Plastic"
+            v.Reflectance = 0
+        elseif v:IsA("Decal") or v:IsA("Texture") and decalsyeeted then
+            v.Transparency = 1
+        elseif v:IsA("ParticleEmitter") or v:IsA("Trail") then
+            v.Lifetime = NumberRange.new(0)
+        elseif v:IsA("Explosion") then
+            v.BlastPressure = 1
+            v.BlastRadius = 1
+        elseif v:IsA("Fire") or v:IsA("SpotLight") or v:IsA("Smoke") or v:IsA("Sparkles") then
+            v.Enabled = false
+        elseif v:IsA("MeshPart") then
+            v.Material = "Plastic"
+            v.Reflectance = 0
+            v.TextureID = 10385902758728957
+        end
+    end
+    for i, e in pairs(l:GetChildren()) do
+        if e:IsA("BlurEffect") or e:IsA("SunRaysEffect") or e:IsA("ColorCorrectionEffect") or e:IsA("BloomEffect") or e:IsA("DepthOfFieldEffect") then
+            e.Enabled = false
+        end
+    end
+end)
+
+warn("Anti AFK : Active")
+local GC = getconnections or get_signal_cons
+if GC then
+    for i,v in pairs(GC(game.Players.LocalPlayer.Idled)) do
+        if v["Disable"] then
+            v["Disable"](v)
+        elseif v["Disconnect"] then
+            v["Disconnect"](v)
+        end
+    end
+else
+    print("Unlucky.")
+    local vu = game:GetService("VirtualUser")
+    game:GetService("Players").LocalPlayer.Idled:connect(function()
+        vu:Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+        wait(1)
+        vu:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+    end)
+end
+
+-----------------------------------------------------------------------------------
+
+-- Settings_2 (Players)
+Settings_2:Slider("Walk Speed", 0, 1000, 15, function(t)
+    game:GetService("Players").LocalPlayer.Character.Humanoid.WalkSpeed = t
+    while t do wait(1)
+        game:GetService("Players").LocalPlayer.Character.Movement.Disabled = true
+    end
+end)
+
+Settings_2:Slider("Jump Power", 0, 1000, 50, function(t)
+    game:GetService("Players").LocalPlayer.Character.Humanoid.JumpPower = t
+end)
+
+Settings_2:Slider("Gravity", 0, 500, 196, function(t)
+    workspace.Gravity = t
+end)
+
+-----------------------------------------------------------------------------------
+
+-- Credits_1 (Changelog)
+Credits_1:Label("• BlackTrap Gui V1.2 :")
+Credits_1:Label("  1.New UI")
+Credits_1:Label("  2.Added Time and Date")
+Credits_1:Label("  3.Added Player Info")
+Credits_1:Label("  4.Fix Slider Swap for Mobile Device")
+Credits_1:Label("• Update Date : 25/02/2022")
+
+-----------------------------------------------------------------------------------
+
+-- Credits_2 (Credits)
+Credits_2:Button("Wanz#1954", function()
+    Blacklib:Notification("Notification", "Discord ID Copied, You can paste it.")
+    setclipboard('Wanz#1954')
+end)
+Credits_2:Button("Copy Link Discord Grup", function()
+    Blacklib:Notification("Notification", "Discord Grup ID Copied, You can paste it.")
+    setclipboard('https://discord.gg/JvqkWs7HZG')
+end)
+Credits_2:Button("Destroy Gui", function()
+    Blacklib:Notification("Description", "Thanks for using BlackTrap.")
+    wait(3)
+    game:GetService("CoreGui")["BlackTrap"]:Destroy()
+end)
+
+-----------------------------------------------------------------------------------
+
+-- Credits_3 (Game Supported)
+Credits_3:Label("• Pet Simulator X (Stable)")
+Credits_3:Label("• Blox Fruits#17 Part2 (Beta)")
+Credits_3:Label("• Ninja Legends (Beta)")
+Credits_3:Label("Report me if have another bug")
